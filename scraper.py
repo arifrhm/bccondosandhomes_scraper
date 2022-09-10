@@ -1,4 +1,5 @@
 import requests
+import json
 
 url = "https://www.bccondosandhomes.com/public/api2/search-listings"
 
@@ -35,4 +36,8 @@ headers = {
 
 response = requests.request("POST", url, json=payload, headers=headers)
 
-print(response.text)
+print(response.json())
+
+with open("response.json", "w+") as f:
+    f.write(json.dumps(response.json()))
+    f.close()
