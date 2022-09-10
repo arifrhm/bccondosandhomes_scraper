@@ -1,10 +1,9 @@
-from datetime import datetime
 import os
-import re
-from webbrowser import get
-import requests
-import json
-from bs4 import BeautifulSoup
+import time
+
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import undetected_chromedriver as uc
 import time
 
 # temp directory checking segment
@@ -26,53 +25,20 @@ URL_API = "https://www.bccondosandhomes.com/public/api2/search-listings"
 URL_GET_ACTIVE = "https://www.bccondosandhomes.com/search-listings/"
 URL_GET_SOLD = "https://www.bccondosandhomes.com/search-listings/?listing_status=sold"
 
-payload_active = {
-    "listing_status": "active",
-    "built_btw": [
-        1900,
-        2022
-    ],
-    "pricefrom": 0,
-    "priceto": 20000000,
-    "kitchens": "0+",
-    "beds": "0+",
-    "baths": "0+",
-    "subareas": [],
-    "types": [],
-    "page": 1,
-    "_token": "9edb1e18508441d9ba2482277eae7183"
-}
-# payload_sold = {
-#     "listing_status": "sold",
-#     "built_btw": [
-#         1900,
-#         2022
-#     ],
-#     "pricefrom": 0,
-#     "priceto": 20000000,
-#     "kitchens": "0+",
-#     "beds": "0+",
-#     "baths": "0+",
-#     "subareas": [],
-#     "types": [],
-#     "page": 1,
-#     "_token": "1goZFozMH7nPZ2A81Oi68lpKJCxERkP00OWysaT1"
-# }
+def get_data():
+    # driver = webdriver.Chrome()
+    driver = uc.Chrome(use_subprocess=True)
+    driver.get(URL_GET_ACTIVE)
+    element = driver.find_element(By.XPATH, '//*[@id="identifierId"]')
+    # element.send_keys(phone)
+    time.sleep(10)
+    element.send_keys(Keys.RETURN)
+    time.sleep(10)
+    element = driver.find_element(By.XPATH, '//*[@id="password"]/div[1]/div/div[1]/input')
+    # element.send_keys(password)
+    element.send_keys(Keys.RETURN)
+    time.sleep(15)  # waiting 3 minutes after executed login form submission
+    driver.close()  # chrome will be automatically closed after 3 minutes
 
-
-def main(url):
-    with requests.Session() as session:
-        # Login segment
-        print("Logging in...")
-        # get_req = s.get(url_get)
-        # p = session.post(url, data=payload_active)
-        g = session.get(url)
-        print("Sleep for 10 seconds")
-        time.sleep(10)
-        print("Wake up")
-        print(g.text)
-
-
-# #testing call file
-if __name__ == "__main__":
-    main("https://www.bccondosandhomes.com/search-listings/")
+if __name__ == '_main_':
+    get_data()
