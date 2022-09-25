@@ -13,7 +13,7 @@ payload = {
     "baths": "0+",
     "subareas": [],
     "types": [],
-    "page": 1,
+    "page": 2,
     "_token": "1goZFozMH7nPZ2A81Oi68lpKJCxERkP00OWysaT1"
 }
 headers = {
